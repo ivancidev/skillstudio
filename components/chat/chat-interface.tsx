@@ -1,6 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
+
+import { useState, useEffect, useMemo } from 'react'
 import { useChat } from '@ai-sdk/react'
 import { ModelSelector } from './model-selector'
 import { ChatMessages } from './chat-messages'
@@ -72,47 +74,58 @@ export const ChatInterface = () => {
   }
 
   // Parse conversation to extract skills and documents
-  let skillName = ''
-  let skillSlug = ''
-  let skillPlatform: any = 'all'
-  let skillMd = ''
-  const extraFiles: { path: string; content: string }[] = []
-  let isReadyToPackage = false
+  const { skillName, skillSlug, skillPlatform, skillMd, extraFiles, isReadyToPackage } = useMemo(() => {
+    let name = ''
+    let slug = ''
+    let platform: 'claude' | 'cursor' | 'windsurf' | 'gpt' | 'all' = 'all'
+    let md = ''
+    const files: { path: string; content: string }[] = []
+    let ready = false
 
-  messages.forEach((message: any) => {
-    if (message.toolInvocations) {
-      message.toolInvocations.forEach((tool: any) => {
-        const { toolName, args } = tool
-        
-        if (toolName === 'generateSkillMd') {
-          const { name, slug, platform, content } = args as any
-          if (name) skillName = name
-          if (slug) skillSlug = slug
-          if (platform) skillPlatform = platform
-          if (content) skillMd = content
-        }
-        
-        if (toolName === 'generateScript') {
-          const { path, content } = args as any
-          if (path && content) {
-            const idx = extraFiles.findIndex(f => f.path === path)
-            if (idx >= 0) {
-              extraFiles[idx].content = content
-            } else {
-              extraFiles.push({ path, content })
+    messages.forEach((message: any) => {
+      if (message.toolInvocations) {
+        message.toolInvocations.forEach((tool: any) => {
+          const { toolName, args } = tool
+          
+          if (toolName === 'generateSkillMd') {
+            const { name: argName, slug: argSlug, platform: argPlatform, content: argContent } = args as any
+            if (argName) name = argName
+            if (argSlug) slug = argSlug
+            if (argPlatform) platform = argPlatform
+            if (argContent) md = argContent
+          }
+          
+          if (toolName === 'generateScript') {
+            const { path: argPath, content: argContent } = args as any
+            if (argPath && argContent) {
+              const idx = files.findIndex(f => f.path === argPath)
+              if (idx >= 0) {
+                files[idx].content = argContent
+              } else {
+                files.push({ path: argPath, content: argContent })
+              }
             }
           }
-        }
-        
-        if (toolName === 'packageSkill') {
-          const { ready } = args as any
-          if (ready) {
-            isReadyToPackage = true
+          
+          if (toolName === 'packageSkill') {
+            const { ready: argReady } = args as any
+            if (argReady) {
+              ready = true
+            }
           }
-        }
-      })
+        })
+      }
+    })
+
+    return {
+      skillName: name,
+      skillSlug: slug,
+      skillPlatform: platform,
+      skillMd: md,
+      extraFiles: files,
+      isReadyToPackage: ready
     }
-  })
+  }, [messages])
 
   // Auto-save generated skill into local list when packaged successfully
   useEffect(() => {

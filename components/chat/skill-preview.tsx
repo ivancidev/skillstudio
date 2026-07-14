@@ -164,7 +164,7 @@ export const SkillPreview = ({
               </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center text-slate-400 font-mono text-[12px] py-16">
-                No skill markdown generated yet. Let's describe what you need to start.
+                No skill markdown generated yet. Let&apos;s describe what you need to start.
               </div>
             )}
           </div>

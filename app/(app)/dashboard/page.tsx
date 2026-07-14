@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-hooks/set-state-in-effect */
+
 import { useEffect, useState } from 'react'
 import { SkillGrid } from '@/components/dashboard/skill-grid'
 import { Skill } from '@/components/dashboard/skill-card'
@@ -129,7 +131,7 @@ export default function DashboardPage() {
         <div className="text-center py-20 bg-white border border-slate-200/50 rounded-2xl p-8 max-w-md mx-auto">
           <p className="font-display font-semibold text-[18px] text-slate-800 mb-2">No skills yet</p>
           <p className="font-sans text-[14px] text-slate-500 mb-6">
-            You haven't generated any assistant instructions yet. Describe your workflow to begin.
+            You haven&apos;t generated any assistant instructions yet. Describe your workflow to begin.
           </p>
           <Link href="/generate">
             <Button variant="accent">Generate your first skill &rarr;</Button>

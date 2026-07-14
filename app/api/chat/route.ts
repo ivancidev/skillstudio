@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { streamText } from 'ai'
 import { getModelInstance, ModelProvider } from '@/lib/models/providers'
 import { SYSTEM_PROMPT } from '@/lib/agent/system-prompt'

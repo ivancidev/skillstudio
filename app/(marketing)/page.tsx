@@ -64,7 +64,7 @@ export default function LandingPage() {
             <div className="font-mono text-brand-indigo text-[13px] uppercase tracking-wide mb-3">03 / Install</div>
             <h3 className="font-display font-semibold text-[18px] mb-2">Package & run</h3>
             <p className="font-sans text-[14px] text-slate-500">
-              Download the .skill bundle containing SKILL.md and assets. Extract it directly into your project's agent path.
+              Download the .skill bundle containing SKILL.md and assets. Extract it directly into your project&apos;s agent path.
             </p>
           </div>
         </div>

@@ -2,7 +2,13 @@ export interface Message {
   id: string
   role: 'user' | 'assistant' | 'system' | 'data' | string
   content: string
-  toolInvocations?: any[]
+  toolInvocations?: {
+    toolCallId: string
+    toolName: string
+    state: 'call' | 'result'
+    args: unknown
+    result?: unknown
+  }[]
 }
 import { LogoMark } from '../ui/logo'
 import { User, CheckCircle2, Loader2 } from 'lucide-react'
@@ -10,7 +16,7 @@ import { twMerge } from 'tailwind-merge'
 
 interface ChatMessagesProps {
   messages: Message[]
-  isLoading: boolean;
+  isLoading: boolean
 }
 
 export const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
@@ -93,15 +99,15 @@ export const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
                       {toolName === 'generateScript' && (
                         <span>
                           {isCall 
-                            ? `Generating helper script: ${(tool.args as any).path}...` 
-                            : `Created script file: ${(tool.args as any).path}`}
+                            ? `Generating helper script: ${(tool.args as { path?: string })?.path || 'file'}...` 
+                            : `Created script file: ${(tool.args as { path?: string })?.path || 'file'}`}
                         </span>
                       )}
                       {toolName === 'validateSkill' && (
                         <span>
                           {isCall 
                             ? 'Running validation tests...' 
-                            : (tool.result as any)?.isValid 
+                            : (tool.result as { isValid?: boolean })?.isValid 
                               ? 'Skill validation passed cleanly' 
                               : 'Skill validation completed with feedback'}
                         </span>
@@ -119,6 +125,17 @@ export const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
           </div>
         )
       })}
+
+      {isLoading && (
+        <div className="flex gap-4 max-w-2xl mr-auto animate-in fade-in duration-200">
+          <div className="shrink-0 select-none">
+            <LogoMark />
+          </div>
+          <div className="bg-white border border-slate-200/50 rounded-xl px-4 py-3 shadow-sm flex items-center justify-center">
+            <Loader2 className="w-5 h-5 text-brand-indigo animate-spin" />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
