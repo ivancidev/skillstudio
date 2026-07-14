@@ -1,0 +1,34 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, feat/*, feature/* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify:
+    name: Build & Lint Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun Runtime
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run Lint Checks
+        run: bun run lint
+
+      - name: Run Build Verification
+        run: bun run build
+        env:
+          # Inject placeholders to satisfy Next.js static prerendering during CI checks
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder-url.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
