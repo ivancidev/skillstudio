@@ -231,7 +231,7 @@ export const ChatInterface = () => {
                 type={showKey ? 'text' : 'password'}
                 value={apiKey}
                 onChange={handleKeyChange}
-                placeholder={`Paste your ${provider.toUpperCase()} API key — stored locally only`}
+                placeholder={`Paste your ${provider.toUpperCase()} API key - stored locally only`}
                 className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-indigo/20 focus:border-brand-indigo/60 transition pr-20 font-mono"
               />
               <div className="absolute right-2 flex items-center gap-1.5">

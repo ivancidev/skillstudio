@@ -1,17 +1,12 @@
 import { Logo } from '@/components/ui/logo'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { 
-  ShieldCheck, 
-  Cpu, 
-  Folder, 
-  FileText, 
-  Database, 
-  Palette, 
-  GitCommit, 
-  Code2, 
-  ArrowRight,
-  Terminal
+import Image from 'next/image'
+import {
+  Database,
+  Palette,
+  GitCommit,
+  Code2,
 } from 'lucide-react'
 
 export default function LandingPage() {
@@ -31,106 +26,45 @@ export default function LandingPage() {
       </header>
 
       {/* Main hero */}
-      <main className="flex-1 flex flex-col justify-center max-w-5xl mx-auto py-16 md:py-24">
-        
-        {/* Badge */}
-        <div className="inline-flex items-center gap-1.5 bg-indigo-50 border border-brand-indigo/20 px-3.5 py-1.5 rounded-full select-none max-w-fit mx-auto mb-6">
-          <Cpu className="w-3.5 h-3.5 text-brand-indigo animate-pulse" />
-          <span className="font-mono text-[11px] text-brand-indigo font-bold uppercase tracking-wider">SkillStudio v1.0</span>
-        </div>
+      <main className="flex-1 flex flex-col max-w-7xl mx-auto py-16 md:py-24 w-full">
 
-        {/* Hero Typography */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h1 className="font-display font-bold text-[36px] md:text-[56px] tracking-[-0.02em] leading-[1.1] text-brand-slate mb-6">
-            Build custom AI assistant <span className="text-brand-indigo">skills</span>.<br />Master any codebase.
-          </h1>
-          <p className="font-sans text-[15px] md:text-[16px] text-slate-500 max-w-xl mx-auto leading-[1.6]">
-            Author, refine, and package tailored coding guidelines, design systems, or helper tools into `.skill` bundles ready to install in Cursor, Claude Code, Windsurf, and Continue.
-          </p>
-        </div>
+        {/* Hero: text left, workspace preview right */}
+        <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-12 items-center mb-24">
 
-        {/* Action buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-          <Link href="/generate" className="w-full sm:w-auto">
-            <Button variant="accent" className="w-full sm:w-auto text-[15px] px-8 py-3 shadow-md shadow-brand-indigo/10 hover:scale-[1.02] transition-transform">
-              Start generating &rarr;
-            </Button>
-          </Link>
-          <Link href="/dashboard" className="w-full sm:w-auto">
-            <Button variant="secondary" className="w-full sm:w-auto text-[15px] px-8 py-3 hover:bg-slate-50 hover:border-brand-indigo/40 transition-colors">
-              View your skills
-            </Button>
-          </Link>
-        </div>
+          <div>
+            <h1 className="font-display font-bold text-[36px] md:text-[52px] tracking-[-0.02em] leading-[1.1] text-brand-slate mb-6">
+              Build custom AI assistant <span className="text-brand-indigo">skills</span>.<br />Master any codebase.
+            </h1>
+            <p className="font-sans text-[15px] md:text-[16px] text-slate-500 max-w-lg leading-[1.6] mb-8">
+              Author and package coding guidelines, design systems, and helper tools into skill bundles for Cursor, Claude Code, Windsurf, and Continue.
+            </p>
+            <Link href="/generate">
+              <Button variant="accent" className="text-[15px] px-8 py-3 shadow-md shadow-brand-indigo/10 hover:scale-[1.02] transition-transform">
+                Launch App &rarr;
+              </Button>
+            </Link>
+          </div>
 
-        {/* Visual Workspace Mockup inside a Signature Card */}
-        <div className="w-full max-w-4xl mx-auto bg-brand-slate text-left rounded-[14px] p-6 shadow-xl border border-slate-800/80 skill-card-grid relative overflow-hidden mb-24 group hover:border-brand-indigo/35 transition-all duration-300">
-          
-          {/* Header of Mockup */}
-          <div className="flex items-center justify-between border-b border-slate-800/60 pb-3 mb-4 select-none">
-            <div className="flex items-center gap-2">
+          {/* Real product screenshot inside a Signature Card frame */}
+          <div className="w-full bg-brand-slate rounded-[14px] p-2.5 shadow-xl border border-slate-800/80 skill-card-grid relative overflow-hidden group hover:border-brand-indigo/35 transition-all duration-300">
+
+            {/* Browser chrome */}
+            <div className="flex items-center gap-2 px-2 pb-2.5 select-none">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-500/85" />
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500/85" />
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/85" />
             </div>
-            <div className="flex items-center gap-1.5">
-              <Terminal className="w-3.5 h-3.5 text-brand-indigo" />
-              <span className="font-mono text-[11px] uppercase tracking-wider text-brand-slate-light">Workspace Preview</span>
-            </div>
+
+            <Image
+              src="/screenshots/generate-preview.png"
+              alt="SkillStudio's skill generator: chat panel, model selector, and live SKILL.md preview"
+              width={1503}
+              height={716}
+              className="w-full h-auto rounded-lg border border-slate-800/60"
+              priority
+            />
           </div>
 
-          {/* Editor Grid Split */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-[13px] text-slate-300">
-            
-            {/* Sidebar (Folder Structure) */}
-            <div className="border-r border-slate-800/65 pr-4 space-y-3 md:col-span-1 select-none">
-              <div className="text-slate-500 uppercase text-[10px] tracking-wider font-semibold">Project tree</div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-slate-400">
-                  <Folder className="w-4 h-4 text-brand-indigo" />
-                  <span>my-codebase/</span>
-                </div>
-                <div className="flex items-center gap-2 pl-4 text-slate-400">
-                  <Folder className="w-4 h-4 text-brand-indigo" />
-                  <span>.agents/</span>
-                </div>
-                <div className="flex items-center gap-2 pl-8 text-slate-400">
-                  <Folder className="w-4 h-4 text-brand-indigo" />
-                  <span>skills/</span>
-                </div>
-                <div className="flex items-center gap-2 pl-12 text-white bg-brand-indigo/10 border-l border-brand-indigo py-0.5 pr-2">
-                  <FileText className="w-4 h-4 text-brand-indigo shrink-0" />
-                  <span className="truncate">custom-helper/</span>
-                </div>
-                <div className="flex items-center gap-2 pl-16 text-slate-400">
-                  <FileText className="w-4 h-4 text-slate-550 shrink-0" />
-                  <span>SKILL.md</span>
-                </div>
-                <div className="flex items-center gap-2 pl-16 text-slate-400">
-                  <Folder className="w-4 h-4 text-slate-550 shrink-0" />
-                  <span>scripts/</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Document Content Editor Mock */}
-            <div className="md:col-span-2 space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="text-slate-550 uppercase text-[10px] tracking-wider font-semibold">SKILL.md - Generated Rules</div>
-                <div className="text-[11px] text-brand-green bg-emerald-950/20 px-2 py-0.5 rounded border border-emerald-500/10 font-bold uppercase tracking-wider">Valid</div>
-              </div>
-              <div className="bg-slate-950/40 p-4 rounded-lg border border-slate-800/80 space-y-2.5 text-slate-350 select-none">
-                <p className="text-brand-indigo font-semibold"># Custom Workspace Helper</p>
-                <p className="text-slate-500">## Rules & Directives</p>
-                <p>1. Always format responses in clean TSX.</p>
-                <p>2. Keep state hooks atomic and use modular imports.</p>
-                <p>3. Do not introduce raw styling utilities; rely on theme variables.</p>
-                <p className="text-slate-500">## Verification Steps</p>
-                <p>- Run `bun test` after each generated hook.</p>
-              </div>
-            </div>
-
-          </div>
         </div>
 
         {/* Showcase / Skill Types Section */}
@@ -209,7 +143,7 @@ export default function LandingPage() {
         </div>
 
         {/* Key Features / Benefits List */}
-        <div className="border-t border-slate-200/50 pt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="border-t border-slate-200/50 pt-16 grid grid-cols-1 md:grid-cols-[1.3fr_1fr_1fr] gap-10">
           <div>
             <h4 className="font-display font-semibold text-[18px] text-brand-slate mb-2">100% Client-Side Privacy</h4>
             <p className="font-sans text-[14px] text-slate-500 leading-[1.6]">
@@ -239,6 +173,21 @@ export default function LandingPage() {
             <span className="font-mono text-[11px] bg-indigo-50 border border-brand-indigo/10 text-brand-indigo px-3.5 py-1.5 rounded-full uppercase tracking-wider font-semibold">Windsurf</span>
             <span className="font-mono text-[11px] bg-indigo-50 border border-brand-indigo/10 text-brand-indigo px-3.5 py-1.5 rounded-full uppercase tracking-wider font-semibold">Continue</span>
           </div>
+        </div>
+
+        {/* Closing CTA */}
+        <div className="mt-24 bg-brand-slate text-center rounded-[14px] px-8 py-16 shadow-xl border border-slate-800/80 skill-card-grid relative overflow-hidden">
+          <h2 className="font-display font-bold text-[28px] md:text-[36px] tracking-[-0.02em] leading-[1.1] text-[#F8FAFC] mb-4">
+            Package your first skill in minutes.
+          </h2>
+          <p className="font-sans text-[15px] text-slate-400 max-w-md mx-auto mb-8 leading-[1.6]">
+            No signup, no server storage. Bring your own API key and export a ready-to-install bundle.
+          </p>
+          <Link href="/generate">
+            <Button variant="accent" className="text-[15px] px-8 py-3 shadow-md shadow-brand-indigo/20 hover:scale-[1.02] transition-transform">
+              Launch App &rarr;
+            </Button>
+          </Link>
         </div>
       </main>
 

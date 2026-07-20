@@ -252,7 +252,7 @@ export default function DashboardPage() {
             <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
+              onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest' | 'name')}
               className="bg-transparent text-[11px] font-mono uppercase tracking-wider font-bold outline-none cursor-pointer pr-1"
             >
               <option value="newest">Newest</option>
