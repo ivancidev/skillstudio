@@ -18,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SkillStudio — Build AI Agent Skills",
+  title: "SkillStudio - Build AI Agent Skills",
   description: "Generate and package instruction skills for Claude, Cursor, Windsurf, and other AI models.",
 };
 

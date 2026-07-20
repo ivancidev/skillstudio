@@ -96,7 +96,7 @@ export const SkillPreview = ({
       {/* Title */}
       <div className="p-4 border-b border-slate-200/50 bg-slate-50 flex items-center justify-between select-none">
         <span className="font-mono text-[11px] text-brand-slate-light uppercase tracking-wider font-semibold">
-          {skillName ? `Skill Preview — ${skillName}` : 'Skill Preview'}
+          {skillName ? `Skill Preview - ${skillName}` : 'Skill Preview'}
         </span>
         {isReady && (
           <span className="font-mono text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">
