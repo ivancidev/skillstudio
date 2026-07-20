@@ -201,7 +201,7 @@ export const ChatInterface = () => {
     <div className="flex-1 flex flex-col lg:flex-row h-[calc(100vh-4rem)] lg:h-screen overflow-hidden">
       
       {/* Left Chat Area (60% width) */}
-      <div className="flex-1 lg:w-3/5 flex flex-col bg-brand-bg border-r border-slate-200/50">
+      <div className="flex-1 lg:w-3/5 flex flex-col bg-slate-50 border-r border-slate-200/50">
         
         {/* Top Control Bar */}
         <div className="p-6 bg-white border-b border-slate-200/50 space-y-4">

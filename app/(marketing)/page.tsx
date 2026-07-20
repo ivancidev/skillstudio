@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-brand-bg flex flex-col px-6 md:px-12 lg:px-24">
+    <div className="min-h-screen bg-slate-50 flex flex-col px-6 md:px-12 lg:px-24">
       {/* Header */}
       <header className="flex items-center justify-between py-6 border-b border-slate-200/50">
         <Logo />
