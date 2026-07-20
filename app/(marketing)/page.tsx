@@ -2,7 +2,6 @@ import { Logo } from '@/components/ui/logo'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { 
-  ShieldCheck, 
   Cpu, 
   Folder, 
   FileText, 
@@ -10,7 +9,6 @@ import {
   Palette, 
   GitCommit, 
   Code2, 
-  ArrowRight,
   Terminal
 } from 'lucide-react'
 
