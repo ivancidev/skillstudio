@@ -14,23 +14,71 @@ import { LogoMark } from '../ui/logo'
 import { User, CheckCircle2, Loader2 } from 'lucide-react'
 import { twMerge } from 'tailwind-merge'
 
+const TEMPLATES = [
+  {
+    title: 'Postgres & Supabase Guide',
+    description: 'Optimize DB connections, migrations, and schema definitions.',
+    prompt: 'I want to build a skill for writing optimal Postgres schemas and Supabase connection methods. Enforce using typescript types generated from the database schema and explicit error handling on queries.',
+  },
+  {
+    title: 'Tailwind Token Enforcer',
+    description: 'Enforce custom layout tokens, spacing grids, and text colors.',
+    prompt: 'Generate a styling helper skill for Tailwind CSS. Enforce using a strict 8px spacing grid, off-white #F8FAFC canvas background, and accessible contrast ratios (WCAG AA).',
+  },
+  {
+    title: 'Git Conventional Commits',
+    description: 'Standardize commit formats and validate files via git hooks.',
+    prompt: 'Help me build a skill that enforces semantic conventional commit messages. Include a git pre-commit script to run code linting and reject dirty files.',
+  },
+  {
+    title: 'Bun Unit Testing Assistant',
+    description: 'Standardize testing files, mock configurations, and coverage checks.',
+    prompt: 'I want a skill to help generate unit tests using Bun test runner. Set rules for testing hooks, mocking API responses, and checking test coverage targets.',
+  }
+]
+
 interface ChatMessagesProps {
   messages: Message[]
   isLoading: boolean
+  onSelectTemplate?: (prompt: string) => void
 }
 
-export const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
+export const ChatMessages = ({ messages, isLoading, onSelectTemplate }: ChatMessagesProps) => {
   return (
     <div className="flex-1 overflow-y-auto p-6 space-y-6">
       {messages.length === 0 && (
-        <div className="h-full flex flex-col items-center justify-center text-center max-w-sm mx-auto py-12">
+        <div className="h-full flex flex-col items-center justify-center text-center max-w-xl mx-auto py-8">
           <LogoMark />
-          <h2 className="font-display font-semibold text-[18px] mt-4 mb-2 text-slate-800">
+          <h2 className="font-display font-bold text-[20px] tracking-[-0.02em] mt-4 mb-2 text-slate-800">
             Generate custom AI skills
           </h2>
-          <p className="font-sans text-[14px] text-slate-500">
+          <p className="font-sans text-[14.5px] text-slate-500 leading-relaxed max-w-md mb-8">
             Tell me what behavior, design system, or rules you want your assistant to learn. I will guide you, ask clarifying questions, and package your skill file.
           </p>
+
+          {onSelectTemplate && (
+            <div className="w-full space-y-3">
+              <div className="font-mono text-[10px] text-slate-450 uppercase tracking-wider font-semibold select-none">
+                Quick-Start Templates
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                {TEMPLATES.map((tpl) => (
+                  <button
+                    key={tpl.title}
+                    onClick={() => onSelectTemplate(tpl.prompt)}
+                    className="p-3.5 bg-white border border-slate-200/50 hover:border-brand-indigo/35 hover:bg-slate-50 rounded-xl transition-all cursor-pointer group flex flex-col justify-between"
+                  >
+                    <span className="font-display font-semibold text-[13px] text-slate-850 group-hover:text-brand-indigo transition-colors mb-1">
+                      {tpl.title}
+                    </span>
+                    <span className="text-[11px] text-slate-500 leading-normal font-sans">
+                      {tpl.description}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

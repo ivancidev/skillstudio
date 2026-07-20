@@ -9,7 +9,7 @@ import { ChatMessages } from './chat-messages'
 import { ChatInput } from './chat-input'
 import { SkillPreview } from './skill-preview'
 import { ModelProvider } from '@/lib/models/providers'
-import { Eye, EyeOff, ShieldCheck } from 'lucide-react'
+import { Eye, EyeOff, ShieldCheck, Trash2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 
 export const ChatInterface = () => {
@@ -209,34 +209,73 @@ export const ChatInterface = () => {
           
           {/* API Key Input */}
           <div className="flex flex-col gap-1.5">
-            <label className="font-mono text-[11px] text-brand-slate-light uppercase tracking-wider font-semibold select-none">
-              API Key Config
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="font-mono text-[11px] text-brand-slate-light uppercase tracking-wider font-semibold select-none">
+                API Key Config
+              </label>
+              {/* Connection Status Badge */}
+              {apiKey ? (
+                <div className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full select-none">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
+                  <span className="font-mono text-[10px] text-emerald-600 font-semibold uppercase tracking-wider">Connected (Local)</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 bg-indigo-50 border border-brand-indigo/20 px-2 py-0.5 rounded-full select-none">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-indigo" />
+                  <span className="font-mono text-[10px] text-brand-indigo font-semibold uppercase tracking-wider">Server Fallback / Demo</span>
+                </div>
+              )}
+            </div>
             <div className="relative flex items-center">
               <input
                 type={showKey ? 'text' : 'password'}
                 value={apiKey}
                 onChange={handleKeyChange}
                 placeholder={`Paste your ${provider.toUpperCase()} API key — stored locally only`}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-indigo/20 focus:border-brand-indigo/60 transition pr-10 font-mono"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-indigo/20 focus:border-brand-indigo/60 transition pr-20 font-mono"
               />
-              <button
-                type="button"
-                onClick={() => setShowKey(!showKey)}
-                className="absolute right-3 text-slate-400 hover:text-slate-650 cursor-pointer"
-              >
-                {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
+              <div className="absolute right-2 flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setShowKey(!showKey)}
+                  className="p-1.5 text-slate-400 hover:text-slate-650 hover:bg-slate-100 rounded-md cursor-pointer transition-colors"
+                  title={showKey ? "Hide key" : "Show key"}
+                >
+                  {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+                {apiKey && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setApiKey('')
+                      localStorage.removeItem(`ss_api_key_${provider}`)
+                    }}
+                    className="p-1.5 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-md cursor-pointer transition-colors"
+                    title="Clear key from local storage"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
             </div>
             <div className="flex items-center gap-1 text-[11px] text-slate-400 mt-1 select-none font-mono">
               <ShieldCheck className="w-3.5 h-3.5 text-brand-indigo" />
-              Keys never touch our database and are sent directly to the LLM endpoint.
+              Keys never touch our database and are processed strictly in-memory.
             </div>
           </div>
         </div>
 
         {/* Messaging Container */}
-        <ChatMessages messages={messages} isLoading={isLoading} />
+        <ChatMessages 
+          messages={messages} 
+          isLoading={isLoading} 
+          onSelectTemplate={(prompt) => {
+            sendMessage({
+              role: 'user',
+              content: prompt,
+            })
+          }}
+        />
 
         {/* Text Area Input */}
         <ChatInput

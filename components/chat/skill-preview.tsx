@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from '../ui/button'
-import { FileText, Files, Info, Download, Copy, Check } from 'lucide-react'
+import { FileText, Files, Info, Download, Copy, Check, X } from 'lucide-react'
 import { twMerge } from 'tailwind-merge'
 
 interface SkillPreviewProps {
@@ -22,6 +22,8 @@ export const SkillPreview = ({
 }: SkillPreviewProps) => {
   const [activeTab, setActiveTab] = useState<'markdown' | 'files' | 'install'>('markdown')
   const [copied, setCopied] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<{ path: string; content: string } | null>(null)
+  const [copiedFile, setCopiedFile] = useState(false)
 
   const handleCopy = () => {
     navigator.clipboard.writeText(skillMd)
@@ -171,22 +173,73 @@ export const SkillPreview = ({
         )}
 
         {activeTab === 'files' && (
-          <div className="space-y-2">
-            <div className="font-mono text-[12px] p-3 border border-brand-indigo/20 bg-brand-indigo/5 rounded-lg flex items-center justify-between text-brand-indigo">
-              <span className="font-semibold">SKILL.md</span>
-              <span className="text-[10px] text-brand-indigo/60 uppercase">Base Instruction Document</span>
-            </div>
-            {files.map((file) => (
-              <div key={file.path} className="font-mono text-[12px] p-3 border border-slate-200 rounded-lg flex items-center justify-between text-slate-700 bg-white">
-                <span className="font-semibold">{file.path}</span>
-                <span className="text-[10px] text-slate-400 uppercase">
-                  {file.path.endsWith('.sh') ? 'Shell Script' : file.path.endsWith('.py') ? 'Python Script' : 'Template/Config'}
-                </span>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <div 
+                onClick={() => setSelectedFile({ path: 'SKILL.md', content: skillMd })}
+                className={twMerge(
+                  "font-mono text-[12px] p-3 border rounded-lg flex items-center justify-between transition-all cursor-pointer select-none",
+                  selectedFile?.path === 'SKILL.md'
+                    ? "border-brand-indigo bg-brand-indigo/5 text-brand-indigo"
+                    : "border-slate-200 hover:bg-slate-50 text-slate-700 bg-white"
+                )}
+              >
+                <span className="font-semibold">SKILL.md</span>
+                <span className="text-[10px] opacity-70 uppercase">Base Instruction Document</span>
               </div>
-            ))}
-            {files.length === 0 && (
-              <div className="text-center font-mono text-[11px] text-slate-400 py-6">
-                This skill only includes the main SKILL.md file. No extra scripts are configured.
+              {files.map((file) => (
+                <div 
+                  key={file.path} 
+                  onClick={() => setSelectedFile(file)}
+                  className={twMerge(
+                    "font-mono text-[12px] p-3 border rounded-lg flex items-center justify-between transition-all cursor-pointer select-none",
+                    selectedFile?.path === file.path
+                      ? "border-brand-indigo bg-brand-indigo/5 text-brand-indigo"
+                      : "border-slate-200 hover:bg-slate-50 text-slate-700 bg-white"
+                  )}
+                >
+                  <span className="font-semibold">{file.path}</span>
+                  <span className="text-[10px] opacity-70 uppercase">
+                    {file.path.endsWith('.sh') ? 'Shell Script' : file.path.endsWith('.py') ? 'Python Script' : 'Template/Config'}
+                  </span>
+                </div>
+              ))}
+              {files.length === 0 && (
+                <div className="text-center font-mono text-[11px] text-slate-400 py-6">
+                  This skill only includes the main SKILL.md file. No extra scripts are configured.
+                </div>
+              )}
+            </div>
+
+            {/* In-tab Code Inspector */}
+            {selectedFile && selectedFile.content && (
+              <div className="border border-slate-800 bg-brand-slate rounded-xl p-4 relative overflow-hidden flex flex-col animate-in slide-in-from-bottom-2 duration-150">
+                <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 mb-3 select-none">
+                  <span className="font-mono text-[11px] text-slate-400 truncate font-semibold">{selectedFile.path}</span>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(selectedFile.content)
+                        setCopiedFile(true)
+                        setTimeout(() => setCopiedFile(false), 2000)
+                      }}
+                      className="p-1 text-slate-450 hover:text-white rounded hover:bg-slate-800 transition-colors cursor-pointer"
+                      title="Copy code"
+                    >
+                      {copiedFile ? <Check className="w-3.5 h-3.5 text-brand-green" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+                    <button
+                      onClick={() => setSelectedFile(null)}
+                      className="p-1 text-slate-450 hover:text-white rounded hover:bg-slate-800 transition-colors cursor-pointer"
+                      title="Close code inspector"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+                <pre className="font-mono text-[11.5px] text-slate-200 overflow-auto max-h-[220px] whitespace-pre leading-relaxed p-1.5 bg-slate-950/20 rounded">
+                  <code>{selectedFile.content}</code>
+                </pre>
               </div>
             )}
           </div>

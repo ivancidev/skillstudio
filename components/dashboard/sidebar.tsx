@@ -2,6 +2,7 @@
 
 import { Logo } from '@/components/ui/logo'
 import { LayoutDashboard, Plus, Settings, Menu, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
@@ -109,19 +110,51 @@ export const Sidebar = () => {
           })}
         </nav>
 
-        <div className="mt-auto">
+        <div className="mt-auto space-y-4">
           <Link
             href="/settings"
             className={twMerge(
               "flex items-center gap-3 px-4 py-3 rounded-lg font-display text-[15px] font-medium transition-colors cursor-pointer",
               pathname === '/settings'
                 ? "bg-brand-indigo/10 text-brand-indigo" 
-                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                : "text-slate-650 hover:bg-slate-50 hover:text-slate-900"
             )}
           >
             <Settings className="w-4 h-4 text-slate-400" />
             Settings
           </Link>
+
+          {/* User profile / Sync Widget */}
+          <div className="border-t border-slate-200/50 pt-4 space-y-3">
+            {/* Sync status */}
+            <div className="flex items-center justify-between bg-slate-50 border border-slate-200/60 rounded-lg px-3 py-2 select-none">
+              <span className="font-mono text-[9px] text-slate-500 uppercase tracking-wider font-bold">Local Sandbox</span>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-450" />
+                <span className="font-mono text-[9px] text-slate-500 uppercase font-bold">Offline</span>
+              </div>
+            </div>
+
+            {/* Profile Detail */}
+            <div className="flex items-center gap-3 px-2 py-1 select-none">
+              {/* Fake Avatar */}
+              <div className="w-8.5 h-8.5 rounded-full bg-brand-slate flex items-center justify-center text-[#F8FAFC] font-display font-semibold text-[13px] border border-slate-700 shrink-0">
+                ID
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[13px] font-display font-semibold text-slate-800 truncate">Ivan Dev</div>
+                <div className="text-[10px] font-mono text-slate-450 truncate">demo_account</div>
+              </div>
+            </div>
+
+            {/* Sign in prompt button */}
+            <Button
+              variant="secondary"
+              className="w-full text-[10px] py-2 px-3 font-mono uppercase tracking-wider font-bold hover:border-brand-indigo/35 hover:text-brand-indigo transition-all cursor-pointer"
+            >
+              Sign In to Sync
+            </Button>
+          </div>
         </div>
       </aside>
     </>
